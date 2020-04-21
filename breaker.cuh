@@ -1,7 +1,7 @@
 // Author: Nic Olsen
 
-#ifndef SCAN_CUH
-#define SCAN_CUH
+#ifndef BREAKER_CUH
+#define BREAKER_CUH
 
 #include <string>
 
