@@ -1,9 +1,11 @@
+#include <iostream>
 #include "breaker.cuh"
 #include "hash.h"
 
-using namespace std;
+using std::endl;
+using std::cout;
 
-__global__ string breaker_kernel(string diction, string goal, hash_func hash) {
+__global__ void breaker_kernel(char* diction, char* goal, int goal_len, hash_func hash) {
    // @TODO
 }
 

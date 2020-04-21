@@ -3,17 +3,17 @@
 
 #include <string>
 
-typedef std::string (*hash_func)(std::string str);
+typedef char* (*hash_func)(char*);
 
-inline std::string identity_mapping(std::string str) {
+inline char* identity_mapping(char* str) {
     return str;
 }
 
-inline std::string sha_0(std::string str) {
+inline char* sha_0(char* str) {
     // @TODO
 }
 
-inline std::string sha_1(std::string str) {
+inline char* sha_1(char* str) {
     // @TODO
 }
 
