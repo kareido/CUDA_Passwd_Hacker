@@ -12,6 +12,6 @@
 //  hash: hash function typically used in cryptography
 // @ret:
 //  a non-hashed password string on success, if failed return empty string
-__global__ std::string breaker_kernel(std::string dict, std::string goal, hash_func hash_func);
+__global__ std::string breaker_kernel(std::string dict, std::string goal, hash_func hash);
 
 #endif
