@@ -33,7 +33,7 @@ __global__ void breaker_kernel(char* dict, char* goal, int goal_len, hash_func h
         }
         // hashing
         char hashed_pwd[hash_len] = {0};
-        hash(pwd, hashed_pwd);
+        hash(pwd, goal_len, hashed_pwd);
         // cmp
         if (!strcmp(hashed_pwd, goal)) {
             cout << "Password Hacked: " << orig_pwd << endl;
