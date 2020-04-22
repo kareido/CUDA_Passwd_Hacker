@@ -9,6 +9,6 @@
 //  goal: correct password
 //  goal_len: length of the non-hashed correct password
 //  hash: hash function typically used in cryptography
-__global__ void breaker_kernel(char* diction, char* goal, int goal_len, hash_func hash) {
+__global__ void breaker_kernel(char* dict, char* goal, int goal_len, hash_func hash, int hash_len);
 
 #endif

@@ -3,17 +3,23 @@
 
 #include <string>
 
-typedef char* (*hash_func)(char*);
+typedef void (*hash_func)(char*, int, char*);
 
-inline char* identity_mapping(char* str) {
-    return str;
+// hashing functions
+// @args:
+//  orig: original string
+//  orig_len: original string length (including null character)
+//  hashed: hashed string
+
+inline void identity_mapping(char* orig, int orig_len, char* hashed) {
+    hashed = orig;
 }
 
-inline char* sha_0(char* str) {
+inline void sha_0(char* orig, int orig_len, char* hashed) {
     // @TODO
 }
 
-inline char* sha_1(char* str) {
+inline void sha_1(char* orig, int orig_len, char* hashed) {
     // @TODO
 }
 
