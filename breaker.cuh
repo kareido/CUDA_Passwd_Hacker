@@ -3,6 +3,8 @@
 #ifndef BREAKER_CUH
 #define BREAKER_CUH
 
+#include "hash.h"
+
 // cracking password by brute force
 // @args:
 //  dict: dictionary containing ASCII characters that might have been used in the password.

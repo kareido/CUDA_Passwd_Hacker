@@ -11,7 +11,7 @@ int main(int argc, char** argv) {
     unsigned int num_grids = atoi(argv[1]);
     unsigned int num_threads = atoi(argv[2]);
     cudaDeviceProp prop;
-    cudaGetDeviceProperties(&prop, i);
+    cudaGetDeviceProperties(&prop, 0);
     
     cout << "Device Name: " << prop.name << endl;
     cout << "Max Threads Per Block: " << prop.maxThreadsPerBlock << endl;
