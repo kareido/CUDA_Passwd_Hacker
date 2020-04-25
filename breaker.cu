@@ -41,6 +41,8 @@ __global__ void breaker_kernel(char* dict, char* goal, int goal_len, hash_func h
             cout << "Password Hacked: " << orig_pwd << endl;
             assert(0);
         }
+        delete [] orig_pwd;
+        delete [] hashed_pwd;
     }
 }
 
