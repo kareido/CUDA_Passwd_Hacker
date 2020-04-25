@@ -4,7 +4,7 @@
 #include <string>
 #include <openssl/sha.h>
 
-typedef void (*hash_func)(char*, int, char*);
+typedef void (*hash_func)(char*, int, char*&);
 
 // hashing functions
 // @args:
@@ -12,7 +12,7 @@ typedef void (*hash_func)(char*, int, char*);
 //  orig_len: original string length (including null character)
 //  hashed: hashed string
 
-inline void identity_mapping(char* orig, int orig_len, char* hashed) {
+inline void identity_mapping(char* orig, int orig_len, char*& hashed) {
     hashed = orig;
 }
 
@@ -21,12 +21,12 @@ inline void sha_256(char* orig, int orig_len, char* hashed) {
     SHA256_CTX sha256;
     SHA256_Init(&sha256);
     SHA256_Update(&sha256, orig, orig_len);
-    SHA256_Final(hashed, &sha256);
+    SHA256_Final((unsigned char*)hashed, &sha256);
 }
 
 inline void sha_1(char* orig, int orig_len, char* hashed) {
     // @TODO
-    SHA1(orig, orig_len, hashed);
+    SHA1((unsigned char*)orig, orig_len, (unsigned char*)hashed);
 }
 
 #endif

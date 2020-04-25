@@ -25,14 +25,16 @@ __global__ void breaker_kernel(char* dict, char* goal, int goal_len, hash_func h
         num = tid + r * total_num_threads;
         if (num > N) return;
         int base = 1;
-        char orig_pwd[goal_len] = {0};
+        char * orig_pwd = new char[goal_len];
+        memset(orig_pwd, 0, goal_len);
         // gen
         for (int j = 0; j < goal_len - 1; j++) {
             orig_pwd[j] = dict[num / base % (dict_len - 1)];
             base *= dict_len - 1;
         }
         // hashing
-        char hashed_pwd[hash_len] = {0};
+        char * hashed_pwd = new char[hash_len];
+        memset(hashed_pwd, 0, hash_len);
         hash(pwd, goal_len, hashed_pwd);
         // cmp
         if (!strcmp(hashed_pwd, goal)) {
