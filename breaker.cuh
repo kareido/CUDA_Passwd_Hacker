@@ -3,7 +3,7 @@
 #ifndef BREAKER_CUH
 #define BREAKER_CUH
 
-#include "hash.h"
+#include "hash.cuh"
 
 // cracking password by brute force
 // @args:

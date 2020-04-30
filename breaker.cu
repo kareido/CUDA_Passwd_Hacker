@@ -1,11 +1,10 @@
 #include <cassert>
 #include "breaker.cuh"
-#include "hash.h"
 
-__device__ int strlen_d(char* str) {
+__device__ int strlen_d(char *str) {
     int len = 0;
     char *p = str;
-    while (*p) { 
+    while (*p) {
         len++;
         p++;
     }
@@ -13,13 +12,12 @@ __device__ int strlen_d(char* str) {
     return len;
 }
 
-__device__ bool strcmp_d(char* str1, char* str2) {
+__device__ bool strcmp_d(char *str1, char *str2) {
     char *p1 = str1;
     char *p2 = str2;
-
+    
     while (*p1 && *p2) {
-        if (*p1 != *p2)
-            return false;
+        if (*p1 != *p2) return false;
         p1++;
         p2++;
     }
@@ -27,7 +25,8 @@ __device__ bool strcmp_d(char* str1, char* str2) {
     return bool(*p1 == *p2);
 }
 
-__global__ void breaker_kernel(char* dict, char* goal, int goal_len, hash_func hash, int hash_len) {
+__global__ void breaker_kernel(char *dict, char *goal, int goal_len,
+                               hash_func hash, int hash_len) {
     int tid_x = threadIdx.x;
     int tid_y = threadIdx.y;
     int gid_x = blockIdx.x;
@@ -37,8 +36,8 @@ __global__ void breaker_kernel(char* dict, char* goal, int goal_len, hash_func h
     int threads_per_block = blockDim.x * blockDim.y;
     int idx = threads_per_block * gid + tid;
     int total_num_threads = gridDim.x * gridDim.y * threads_per_block;
-    
-    int dict_len = strlen_d(dict) + 1; // including '/0'
+
+    int dict_len = strlen_d(dict) + 1;  // including '/0'
     int N = pow(dict_len - 1, goal_len - 1);
     int round = (N + total_num_threads - 1) / total_num_threads;
     // printf("%s %d\n", dict, strlen_d(dict));
@@ -61,15 +60,20 @@ __global__ void breaker_kernel(char* dict, char* goal, int goal_len, hash_func h
         // cmp
         // if (strcmp_d(hashed_pwd, goal)) {
         //     printf("Password Hacked: %s", orig_pwd);
-            // assert(0);
+        // assert(0);
         // }
         if (strcmp_d(orig_pwd, goal)) {
             printf("\nThe cracked password is [%s].\n", orig_pwd);
             // asm("trap;");
+            uint8_t result[16];
+            md5((uint8_t *)orig_pwd, goal_len - 1, result);
+            for (int i = 0; i < 16; i++) {
+                printf("%2.2x", result[i]);
+            }
+            printf("\n");
             return;
         }
-        delete [] orig_pwd;
+        delete[] orig_pwd;
         // delete [] hashed_pwd;
     }
 }
-

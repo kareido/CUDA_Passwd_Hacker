@@ -2,7 +2,7 @@
 #include <cstdlib>
 #include <cstring>
 #include "breaker.cuh"
-#include "hash.h"
+#include "hash.cuh"
 
 using std::cout;
 using std::endl;

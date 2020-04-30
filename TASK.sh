@@ -5,7 +5,7 @@
 
 module load cuda
 
-nvcc task.cu breaker.cu -Xcompiler -O3 -Xcompiler -Wall -Xptxas -O3 -o task
+#nvcc task.cu breaker.cu -Xcompiler -O3 -Xcompiler -Wall -Xptxas -O3 -o task
 
 ./task 1 128
 
