@@ -3,7 +3,9 @@ Break Password via CUDA Accelaration
   
 Usage:  
 ```bash  
+make
 sbatch TASK.sh  
+make clean
 ```  
   
 Example running result is:  
