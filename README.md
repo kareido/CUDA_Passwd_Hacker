@@ -12,8 +12,8 @@ Example running result is:
 <pre>
 Device Name: GeForce GTX 1080
 Max Threads Per Block: 1024
-
-The cracked password is [759].
-Password cracked in [2.47613] ms.
+The input hash stirng is: fa14d4fe2f19414de3ebd9f63d5c0169
+Password Hacked: 759
+Password cracked in [5.78797] ms.
 </pre>
 
