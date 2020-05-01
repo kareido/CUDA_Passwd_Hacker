@@ -11,10 +11,12 @@
 //  goal: correct password
 //  goal_len: length of the non-hashed correct password
 //  hash: hash function typically used in cryptography
-__global__ void breaker_kernel(char* dict, char* goal, int goal_len, hash_func hash, int hash_len);
+__global__ void breaker_kernel(const char* dict, const uint8_t* hashed, const int goal_len, hash_func hash, const int hash_len);
 
-__device__ int strlen_d(char* str);
+__device__ int strlen_d(const char* str);
 
-__device__ bool strcmp_d(char* str1, char* str2);
+__device__ bool arrcmp_d(const uint8_t *arr1, const uint8_t *arr2, const int len);
+
+__device__ bool strcmp_d(const char* str1, const char* str2);
 
 #endif
