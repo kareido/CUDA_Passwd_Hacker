@@ -26,7 +26,7 @@ int main(int argc, char** argv) {
     cudaEventCreate(&stop);
 
     // setting up dictionary, goal & hash function
-    char dict[] = "1234567890";
+    char dict[] = "1234567890abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
     const int dict_len = strlen(dict) + 1;
     int goal_len = 3 + 1;
     hash_func hash = identity_mapping;
@@ -39,7 +39,7 @@ int main(int argc, char** argv) {
     cudaMallocManaged(&dict_d, dict_len * sizeof(char));
     cudaMallocManaged(&hashed_d, 16 * sizeof(uint8_t));
 
-    strncpy(dict_d, dict, dict_len);
+    memcpy(dict_d, dict, dict_len * sizeof(char));
     cout<<"The input hash stirng is: "<<tmp<<endl;
     for (int i = 0 ; i < 16 ; i ++){
         strncpy(_tmp, tmp+i*2, 2);
