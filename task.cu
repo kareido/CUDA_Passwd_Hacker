@@ -28,10 +28,9 @@ int main(int argc, char** argv) {
     // setting up dictionary, goal & hash function
     char dict[] = "1234567890abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
     const int dict_len = strlen(dict) + 1;
-    int goal_len = 3 + 1;
+    int max_len = 4 + 1;
     hash_func hash = identity_mapping;
     int hash_len = 16; // MD5
-    uint8_t hashed[16];
 
     char *dict_d;
     uint8_t *hashed_d;
@@ -48,7 +47,7 @@ int main(int argc, char** argv) {
 
     cudaEventRecord(start);
     // call the kernel
-    breaker_kernel<<<num_grids, num_threads>>>(dict_d, hashed_d, goal_len, hash, hash_len);
+    breaker_kernel<<<num_grids, num_threads>>>(dict_d, hashed_d, max_len, hash, hash_len);
     cudaError_t cudaerr = cudaDeviceSynchronize();
     if (cudaerr != cudaSuccess)
         printf(">>> kernel launch failed with error \"%s\".\n",
