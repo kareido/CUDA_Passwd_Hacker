@@ -39,7 +39,7 @@ int main(int argc, char** argv) {
     cudaMallocManaged(&hashed_d, 16 * sizeof(uint8_t));
 
     memcpy(dict_d, dict, dict_len * sizeof(char));
-    cout<<"The input hash stirng is: "<<tmp<<endl;
+    cout<<"The input hash string is: "<<tmp<<endl;
     for (int i = 0 ; i < 16 ; i ++){
         strncpy(_tmp, tmp+i*2, 2);
         sscanf(_tmp, "%x", &hashed_d[i]);
