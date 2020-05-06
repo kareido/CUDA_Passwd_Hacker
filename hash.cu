@@ -17,16 +17,16 @@ __device__ uint32_t leftrotate(uint32_t x, uint32_t C) {
     return (((x) << (C)) | ((x) >> (32 - (C))));
 }
 
-__device__ void append_bytes(uint32_t val, uint8_t *bytes) {
-    bytes[0] = (uint8_t)val;
-    bytes[1] = (uint8_t)(val >> 8);
-    bytes[2] = (uint8_t)(val >> 16);
-    bytes[3] = (uint8_t)(val >> 24);
+__device__ void append_bytes(uint32_t val, uint8_t *outputs) {
+    outputs[0] = (uint8_t)val;
+    outputs[1] = (uint8_t)(val >> 8);
+    outputs[2] = (uint8_t)(val >> 16);
+    outputs[3] = (uint8_t)(val >> 24);
 }
 
-__device__ uint32_t to_int32(const uint8_t *bytes) {
-    return (uint32_t)bytes[0] | ((uint32_t)bytes[1] << 8) |
-           ((uint32_t)bytes[2] << 16) | ((uint32_t)bytes[3] << 24);
+__device__ uint32_t append_int(const uint8_t *inputs) {
+    return (uint32_t)inputs[0] | ((uint32_t)inputs[1] << 8) |
+           ((uint32_t)inputs[2] << 16) | ((uint32_t)inputs[3] << 24);
 }
 
 __device__ void md5(const uint8_t *orig_msg, size_t orig_len,
@@ -67,7 +67,7 @@ __device__ void md5(const uint8_t *orig_msg, size_t orig_len,
     for (offset = 0; offset < new_len; offset += (512 / 8)) {
         // break chunk into sixteen 32-bit words w[j], 0 ≤ j ≤ 15
         for (int i = 0; i < 16; i++) {
-            M[i] = to_int32(message + offset + i * 4);
+            M[i] = append_int(message + offset + i * 4);
         }
 
         // Initialize hash value for this chunk:
