@@ -30,7 +30,7 @@ inline void identity_mapping(char* orig, int orig_len, char*& hashed) {
 // }
 
 __device__ void md5(const uint8_t *initial_msg, size_t initial_len, uint8_t *digest);
-__device__ void to_bytes(uint32_t val, uint8_t *bytes);
+__device__ void append_bytes(uint32_t val, uint8_t *bytes);
 __device__ uint32_t to_int32(const uint8_t *bytes);
 
 #endif

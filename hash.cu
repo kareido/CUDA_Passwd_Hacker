@@ -18,7 +18,7 @@ __device__ uint32_t leftrotate(uint32_t x, uint32_t C) {
     return (((x) << (C)) | ((x) >> (32 - (C))));
 }
 
-__device__ void to_bytes(uint32_t val, uint8_t *bytes) {
+__device__ void append_bytes(uint32_t val, uint8_t *bytes) {
     bytes[0] = (uint8_t)val;
     bytes[1] = (uint8_t)(val >> 8);
     bytes[2] = (uint8_t)(val >> 16);
@@ -43,8 +43,6 @@ __device__ void md5(const uint8_t *initial_msg, size_t initial_len,
     uint32_t c0 = 0x98badcfe;
     uint32_t d0 = 0x10325476;
 
-    uint8_t *message = NULL;
-
     size_t new_len, offset;
     uint32_t M[16];
     uint32_t A, B, C, D, F, g;
@@ -52,20 +50,18 @@ __device__ void md5(const uint8_t *initial_msg, size_t initial_len,
     // Pre-processing:
     // append "1" bit to message
     // append "0" bits until message length in bits ≡ 448 (mod 512)
-    // append length mod (2^64) to message
     for (new_len = initial_len + 1; new_len % (512 / 8) != 448 / 8; new_len++);
-
-    message = (uint8_t *)malloc(new_len + 8);
+    uint8_t *message = (uint8_t *)malloc(new_len + 8);
     memcpy(message, initial_msg, initial_len);
     message[initial_len] = 0x80;  // append the "1" bit
     for (offset = initial_len + 1; offset < new_len; offset++){
         message[offset] = 0;  // append "0" bits
     }
 
-    // append the len in bits at the end of the buffer.
-    to_bytes(initial_len * 8, message + new_len);
+    // append length mod (2^64) to message
+    append_bytes(initial_len * 8, message + new_len);
     // address the overflow part
-    to_bytes(initial_len >> 29, message + new_len + 4);
+    append_bytes(initial_len >> 29, message + new_len + 4);
 
     // Process the message in successive 512-bit chunks:
     // for each 512-bit chunk of message:
@@ -96,7 +92,7 @@ __device__ void md5(const uint8_t *initial_msg, size_t initial_len,
                 F = C ^ (B | (~D));
                 g = (7 * i) % 16;
             }
-
+            // Be wary of the below definitions of a,b,c,d
             F = A + F + k[i] + M[g];  // M[g] must be a 32-bits block
             A = D;
             D = C;
@@ -116,8 +112,8 @@ __device__ void md5(const uint8_t *initial_msg, size_t initial_len,
 
     // var char digest[16] := a0 append b0 append c0 append d0 //(Output is in
     // little-endian)
-    to_bytes(a0, digest);
-    to_bytes(b0, digest + 4);
-    to_bytes(c0, digest + 8);
-    to_bytes(d0, digest + 12);
+    append_bytes(a0, digest);
+    append_bytes(b0, digest + 4);
+    append_bytes(c0, digest + 8);
+    append_bytes(d0, digest + 12);
 }

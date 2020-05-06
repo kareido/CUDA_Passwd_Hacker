@@ -42,7 +42,7 @@ int main(int argc, char** argv) {
     cout << "The input hash string is: " << tmp << endl;
     for (int i = 0; i < 16; i++) {
         strncpy(_tmp, tmp + i * 2, 2);
-        sscanf(_tmp, "%c", &hashed_d[i]);
+        sscanf(_tmp, "%x", &hashed_d[i]);
     }
 
     cudaEventRecord(start);
