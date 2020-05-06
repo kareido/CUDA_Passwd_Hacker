@@ -13,12 +13,12 @@ int main(int argc, char** argv) {
     unsigned int num_threads = atoi(argv[2]);
     char *tmp = argv[3];
     char _tmp[3] = {0};
-    // print device info
-    cudaDeviceProp prop;
-    cudaGetDeviceProperties(&prop, 0);
+    // // print device info
+    // cudaDeviceProp prop;
+    // cudaGetDeviceProperties(&prop, 0);
     
-    cout << "Device Name: " << prop.name << endl;
-    cout << "Max Threads Per Block: " << prop.maxThreadsPerBlock << endl;
+    // cout << "Device Name: " << prop.name << endl;
+    // cout << "Max Threads Per Block: " << prop.maxThreadsPerBlock << endl;
 
     cudaEvent_t start;
     cudaEvent_t stop;
@@ -28,7 +28,7 @@ int main(int argc, char** argv) {
     // setting up dictionary, goal & hash function
     char dict[] = "1234567890abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
     const int dict_len = strlen(dict) + 1;
-    int max_len = 7 + 1;
+    int max_len = 4 + 1;
     hash_func hash = identity_mapping;
     int hash_len = 16; // MD5
 
