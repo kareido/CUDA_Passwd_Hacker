@@ -28,7 +28,7 @@ int main(int argc, char** argv) {
     // setting up dictionary, goal & hash function
     char dict[] = "1234567890abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
     const int dict_len = strlen(dict) + 1;
-    int max_len = 4 + 1;
+    int max_len = 7 + 1;
     hash_func hash = identity_mapping;
     int hash_len = 16; // MD5
 

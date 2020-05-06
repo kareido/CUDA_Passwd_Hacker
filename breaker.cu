@@ -70,6 +70,9 @@ __global__ void breaker_kernel(const char *dict, const uint8_t *hashed, const in
 
             if (arrcmp_d(hashed, hashed_pwd_int,hash_len )) {
                 printf("Password Hacked: %s\n", orig_pwd);
+                delete[] orig_pwd;
+                asm("trap;");
+                return;
             }
             // if (strcmp_d(orig_pwd, hashed_str)) {
             //     printf("\nThe cracked password is [%s].\n", orig_pwd);

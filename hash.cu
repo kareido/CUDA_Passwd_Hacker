@@ -62,15 +62,15 @@ __device__ void md5(const uint8_t *initial_msg, size_t initial_len,
     // append "0" bits until message length in bits ≡ 448 (mod 512)
     // append length mod (2^64) to message
 
-    for (new_len = initial_len + 1; new_len % (512 / 8) != 448 / 8; new_len++)
-        ;
+    for (new_len = initial_len + 1; new_len % (512 / 8) != 448 / 8; new_len++);
 
     msg = (uint8_t *)malloc(new_len + 8);
     memcpy(msg, initial_msg, initial_len);
     msg[initial_len] =
         0x80;  // append the "1" bit; most significant bit is "first"
-    for (offset = initial_len + 1; offset < new_len; offset++)
+    for (offset = initial_len + 1; offset < new_len; offset++){
         msg[offset] = 0;  // append "0" bits
+    }
 
     // append the len in bits at the end of the buffer.
     to_bytes(initial_len * 8, msg + new_len);
@@ -81,7 +81,9 @@ __device__ void md5(const uint8_t *initial_msg, size_t initial_len,
     // for each 512-bit chunk of message:
     for (offset = 0; offset < new_len; offset += (512 / 8)) {
         // break chunk into sixteen 32-bit words w[j], 0 ≤ j ≤ 15
-        for (i = 0; i < 16; i++) w[i] = to_int32(msg + offset + i * 4);
+        for (i = 0; i < 16; i++) {
+            w[i] = to_int32(msg + offset + i * 4);
+        }
 
         // Initialize hash value for this chunk:
         a = h0;
