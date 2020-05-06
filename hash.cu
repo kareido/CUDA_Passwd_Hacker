@@ -3,7 +3,6 @@
 #include <stdlib.h>
 #include <string.h>
 
-// Constants are the integer part of the sines of integers (in radians) * 2^32.
 __device__ uint32_t k[64] = {0};
 
 // r specifies the per-round shift amounts
@@ -30,7 +29,7 @@ __device__ uint32_t to_int32(const uint8_t *bytes) {
            ((uint32_t)bytes[2] << 16) | ((uint32_t)bytes[3] << 24);
 }
 
-__device__ void md5(const uint8_t *initial_msg, size_t initial_len,
+__device__ void md5(const uint8_t *orig_msg, size_t orig_len,
                     uint8_t *digest) {
     // Use binary integer part of the sines of integers (Radians) as constants:
     for (int i = 0; i < 64; i++) {
@@ -47,21 +46,21 @@ __device__ void md5(const uint8_t *initial_msg, size_t initial_len,
     uint32_t M[16];
     uint32_t A, B, C, D, F, g;
 
-    // Pre-processing:
-    // append "1" bit to message
-    // append "0" bits until message length in bits ≡ 448 (mod 512)
-    for (new_len = initial_len + 1; new_len % (512 / 8) != 448 / 8; new_len++);
+    // append "0" bit until message length in bits ≡ 448 (mod 512)
+    for (new_len = orig_len + 1; new_len % (512 / 8) != 448 / 8; new_len++);
     uint8_t *message = (uint8_t *)malloc(new_len + 8);
-    memcpy(message, initial_msg, initial_len);
-    message[initial_len] = 0x80;  // append the "1" bit
-    for (offset = initial_len + 1; offset < new_len; offset++){
-        message[offset] = 0;  // append "0" bits
+    memcpy(message, orig_msg, orig_len);
+    // Pre-processing: adding a single 1 bit
+    message[orig_len] = 0x80;
+    // Pre-processing: padding with zeros
+    for (offset = orig_len + 1; offset < new_len; offset++){
+        message[offset] = 0;
     }
 
     // append length mod (2^64) to message
-    append_bytes(initial_len * 8, message + new_len);
+    append_bytes(orig_len * 8, message + new_len);
     // address the overflow part
-    append_bytes(initial_len >> 29, message + new_len + 4);
+    append_bytes(orig_len >> 29, message + new_len + 4);
 
     // Process the message in successive 512-bit chunks:
     // for each 512-bit chunk of message:
