@@ -5,8 +5,8 @@
 
 __device__ uint32_t k[64] = {0};
 
-// r specifies the per-round shift amounts
-__device__ const uint32_t r[] = {
+// K specifies the per-round shift amounts
+__device__ const uint32_t K[] = {
     7, 12, 17, 22, 7, 12, 17, 22, 7, 12, 17, 22, 7, 12, 17, 22,
     5, 9,  14, 20, 5, 9,  14, 20, 5, 9,  14, 20, 5, 9,  14, 20,
     4, 11, 16, 23, 4, 11, 16, 23, 4, 11, 16, 23, 4, 11, 16, 23,
@@ -96,7 +96,7 @@ __device__ void md5(const uint8_t *orig_msg, size_t orig_len,
             A = D;
             D = C;
             C = B;
-            B = B + leftrotate(F, r[i]);
+            B = B + leftrotate(F, K[i]);
         }
 
         // Add this chunk's hash to result so far:
