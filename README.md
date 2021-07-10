@@ -1,5 +1,7 @@
 # CUDA_Passwd_Hacker
 Break Password via CUDA Accelaration  
+
+Final report is available at the [google_drive](https://drive.google.com/file/d/1n32RzQOVuH3vCGIoyuhSF2FaoDlXMx38/view?usp=sharing).
   
 Usage:  
 ```bash  
